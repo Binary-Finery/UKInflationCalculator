@@ -12,132 +12,132 @@
         tools:showIn="@layout/activity_main"
         tools:context=".MainActivity">
 
+    <ScrollView android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                android:fillViewport="true"
+                tools:ignore="UselessParent">
 
-    <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_marginStart="24dp"
-                  android:layout_marginEnd="24dp"
-                  android:gravity="center_horizontal"
-                  android:layout_gravity="center_horizontal"
-                  android:orientation="horizontal">
-
-        <LinearLayout android:layout_width="0dp"
+        <LinearLayout android:layout_width="match_parent"
                       android:layout_height="wrap_content"
-                      android:layout_weight=".4"
-                      android:layout_gravity="end"
-                      android:gravity="end"
-                      android:orientation="horizontal">
+                      android:orientation="vertical"
+                      tools:ignore="UselessParent">
+
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_marginStart="24dp"
+                          android:layout_marginEnd="24dp"
+                          android:gravity="center_horizontal"
+                          android:layout_gravity="center_horizontal"
+                          android:orientation="horizontal">
+
+                <LinearLayout android:layout_width="0dp"
+                              android:layout_height="wrap_content"
+                              android:layout_weight=".4"
+                              android:layout_gravity="end"
+                              android:gravity="end"
+                              android:orientation="horizontal">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="£"
+                            android:textSize="22sp"
+                            android:textColor="@color/textColor"
+                            tools:ignore="HardcodedText"
+                            android:fontFamily="@font/raleway"/>
+
+                    <EditText
+                            android:id="@+id/etAmount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="0.00"
+                            android:background="@android:color/transparent"
+                            android:textSize="24sp"
+                            android:textColor="@color/textColor"
+                            android:inputType="number|numberDecimal"
+                            tools:ignore="Autofill,HardcodedText,LabelFor"
+                            android:fontFamily="@font/raleway"/>
+                </LinearLayout>
+
+
+                <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".2"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:text="in"
+                        tools:ignore="HardcodedText" android:fontFamily="@font/raleway"/>
+
+                <TextView
+                        android:id="@+id/tvDateOne"
+                        android:layout_width="0dp"
+                        android:layout_weight=".4"
+                        android:layout_height="wrap_content"
+                        android:hint="YYYY"
+                        android:layout_gravity="start"
+                        android:gravity="start"
+                        android:textColor="@color/textColor"
+                        android:textSize="24sp"
+                        tools:ignore="Autofill,HardcodedText" android:fontFamily="@font/raleway"/>
+            </LinearLayout>
 
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="£"
-                    android:textSize="22sp"
-                    android:textColor="@color/textColor"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:layout_marginTop="8dp"
+                    android:text="cost in"
                     tools:ignore="HardcodedText"
                     android:fontFamily="@font/raleway"/>
 
-            <EditText
-                    android:id="@+id/etAmount"
+            <TextView
+                    android:id="@+id/tvDateTwo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/textColor"
+                    android:gravity="center_horizontal"
+                    android:layout_marginBottom="16dp"
+                    android:textSize="24sp"
+                    tools:ignore="Autofill,HardcodedText" android:fontFamily="@font/raleway"/>
+
+            <Button
+                    android:id="@+id/btnCalc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="0.00"
-                    android:background="@android:color/transparent"
-                    android:textSize="22sp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/btn_bg"
+                    android:fontFamily="@font/raleway"
+                    android:textColor="#ffffff"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
+                    android:text="calculate"
+                    tools:ignore="HardcodedText"/>
+
+            <TextView
+                    android:id="@+id/tvOutput"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
                     android:textColor="@color/textColor"
-                    android:inputType="number|numberDecimal"
-                    tools:ignore="Autofill,HardcodedText,LabelFor"
+                    android:layout_marginTop="16dp"
+                    android:textSize="22sp"
+                    tools:ignore="HardcodedText" android:fontFamily="@font/raleway"/>
+
+            <TextView
+                    android:id="@+id/tvBreakdown"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:textSize="18sp"
+                    android:textColor="@color/textColor"
+                    android:layout_marginTop="16dp"
                     android:fontFamily="@font/raleway"/>
         </LinearLayout>
-
-
-        <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".2"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:gravity="center_horizontal|center_vertical"
-                android:text="in"
-                tools:ignore="HardcodedText" android:fontFamily="@font/raleway"/>
-
-        <TextView
-                android:id="@+id/tvDateOne"
-                android:layout_width="0dp"
-                android:layout_weight=".4"
-                android:layout_height="wrap_content"
-                android:hint="YYYY"
-                android:layout_gravity="start"
-                android:gravity="start"
-                android:textColor="@color/textColor"
-                android:textSize="22sp"
-                tools:ignore="Autofill,HardcodedText" android:fontFamily="@font/raleway"/>
-    </LinearLayout>
-
-
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            android:text="cost in"
-            tools:ignore="HardcodedText" android:fontFamily="@font/raleway"/>
-
-    <TextView
-            android:id="@+id/tvDateTwo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:textColor="@color/textColor"
-            android:gravity="center_horizontal"
-            android:layout_marginBottom="16dp"
-            android:textSize="22sp"
-            tools:ignore="Autofill,HardcodedText" android:fontFamily="@font/raleway"/>
-
-    <Button
-            android:id="@+id/btnCalc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/btn_bg"
-            android:fontFamily="@font/raleway"
-            android:textColor="#ffffff"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp"
-            android:text="calculate"
-            tools:ignore="HardcodedText"/>
-
-    <TextView
-            android:id="@+id/tvOutput"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal"
-            android:textColor="@color/textColor"
-            android:layout_marginTop="16dp"
-            android:textSize="22sp"
-            tools:ignore="HardcodedText" android:fontFamily="@font/raleway"/>
-
-
-    <TextView
-            android:id="@+id/tvBreakdown"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal"
-            android:textStyle="bold|italic"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/raleway"/>
-
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal"
-            android:textStyle="bold"
-            android:textColor="@color/colorPrimaryDark"
-            android:text="inflation is calculated using the composite price index(CPI) compiled by the Office for National Statistics"
-            android:layout_marginTop="32dp"
-            android:fontFamily="@font/raleway" tools:ignore="HardcodedText"/>
-
+    </ScrollView>
 </LinearLayout>
