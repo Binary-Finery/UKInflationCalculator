@@ -1,4 +1,4 @@
-package com.spencerstudios.ukinflationcalculator
+package com.spencerstudios.ukinflationcalculator.utilities
 
 import android.content.Context
 import android.preference.PreferenceManager

@@ -10,7 +10,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme" tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
-                android:name=".MainActivity"
+                android:name=".activities.MainActivity"
                 android:label="@string/app_name"
                 android:configChanges="screenSize|orientation"
                 android:theme="@style/AppTheme.NoActionBar">
