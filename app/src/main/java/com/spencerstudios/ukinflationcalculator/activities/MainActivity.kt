@@ -45,10 +45,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun yearPickerDialog(n: Int) {
-        val mBuilder = AlertDialog.Builder(this@MainActivity)
+        val builder = AlertDialog.Builder(this@MainActivity)
         val checkedItem = if (n == 1) prefs.getYear1() else prefs.getYear2()
-        mBuilder.setTitle("Select A Year")
-        mBuilder.setSingleChoiceItems(yearArray, checkedItem) { dialog, i ->
+        builder.setTitle("Select A Year")
+        builder.setSingleChoiceItems(yearArray, checkedItem) { dialog, i ->
             if (n == 1) {
                 tvDateOne.text = yearArray[i]
                 prefs.setYear1(i)
@@ -58,8 +58,8 @@ class MainActivity : AppCompatActivity() {
             }
             dialog.dismiss()
         }
-        mBuilder.setPositiveButton("Cancel") { dialog, _ -> dialog.cancel() }
-        val mDialog = mBuilder.create()
+        builder.setPositiveButton("Cancel") { dialog, _ -> dialog.cancel() }
+        val mDialog = builder.create()
         mDialog.show()
     }
 
