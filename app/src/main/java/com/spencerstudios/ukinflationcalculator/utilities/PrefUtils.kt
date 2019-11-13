@@ -12,7 +12,7 @@ class PrefUtils(context: Context) {
     }
 
     fun getYear1(): Int {
-        return prefs.getInt("y1", 0)
+        return prefs.getInt("y1", 234)
     }
 
     fun setYear2(y2: Int) {
@@ -20,6 +20,6 @@ class PrefUtils(context: Context) {
     }
 
     fun getYear2(): Int {
-        return prefs.getInt("y2", 0)
+        return prefs.getInt("y2", 268)
     }
 }
