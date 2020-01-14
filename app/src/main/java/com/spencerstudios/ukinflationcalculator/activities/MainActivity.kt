@@ -9,15 +9,14 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.github.mikephil.charting.charts.LineChart
-import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.formatter.ValueFormatter
-import com.spencerstudios.ukinflationcalculator.CustomValueFormatter
 import com.spencerstudios.ukinflationcalculator.R
 import com.spencerstudios.ukinflationcalculator.dialogs.displayAboutDialog
+import com.spencerstudios.ukinflationcalculator.formatters.CustomValueFormatter
+import com.spencerstudios.ukinflationcalculator.formatters.DatesFormatter
 import com.spencerstudios.ukinflationcalculator.utilities.MetaBuilder
 import com.spencerstudios.ukinflationcalculator.utilities.PrefUtils
 import kotlinx.android.synthetic.main.activity_main.*
@@ -27,9 +26,10 @@ import kotlin.math.min
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var lineChartView : LineChart
     private lateinit var yearArray: Array<String?>
     private lateinit var prefs: PrefUtils
-    private lateinit var lineChartView: LineChart
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,8 +37,9 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         lineChartView = findViewById(R.id.chart)
+
         prefs = PrefUtils(this)
-        yearArray = getYearArray()
+        yearArray = MetaBuilder().getYearArray()
 
         tvDateOne.text = yearArray[prefs.getYear1()]
         tvDateTwo.text = yearArray[prefs.getYear2()]
@@ -55,6 +56,7 @@ class MainActivity : AppCompatActivity() {
                 .build(prefs.getYear1(), prefs.getYear2(), amt)
             tvOutput.text = meta[0]
             tvBreakdown.text = meta[1]
+            resetChart()
             initChart(amt)
         } else Toast.makeText(this, "please enter an amount", Toast.LENGTH_LONG).show()
     }
@@ -78,14 +80,6 @@ class MainActivity : AppCompatActivity() {
         mDialog.show()
     }
 
-    private fun getYearArray(): Array<String?> {
-        val meta = MetaBuilder().buildYearMeta()
-        val array = arrayOfNulls<String>(meta.size)
-        (0 until meta.size).forEach { i ->
-            array[i] = "${meta[i].year}"
-        }
-        return array
-    }
 
     private fun share() {
         val text = tvBreakdown.text
@@ -117,26 +111,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getDates(): ArrayList<String> {
-        val dates = ArrayList<String>()
-        var y1 = prefs.getYear1()
-        var y2 = prefs.getYear2()
-
-       when {
-            y1 > y2 -> {
-                val temp = y1
-                y1 = y2
-                y2 = temp
-            }
-        }
-
-        (y1 until y2.plus(1)).mapTo(dates) {
-            MetaBuilder().buildYearMeta()[it].year.toString()
-        }
-
-        return dates
-    }
-
     private fun getData(amt : Double): ArrayList<Entry> {
         val data = ArrayList<Entry>()
         val yo = prefs.getYear1()
@@ -146,44 +120,45 @@ class MainActivity : AppCompatActivity() {
 
         val meta = MetaBuilder().buildYearMeta()
 
-        for((idx, i) in (ymin..ymax).withIndex()){
+        for((idx, i) in (ymin..ymax).withIndex())
             data.add(Entry(idx.toFloat(), ((meta[i].value / meta[yo].value) * amt).toFloat()))
-        }
         return data
     }
 
-    private fun initChart(amt : Double) {
+    private fun resetChart(){
+        lineChartView.apply {
+            fitScreen()
+            data?.clearValues()
+            xAxis.valueFormatter = null
+            notifyDataSetChanged()
+            clear()
+            invalidate()
+        }
+    }
 
+    private fun initChart(amt : Double) {
         val lineColor = ContextCompat.getColor(this, R.color.colorPrimary)
-        val lineDataSet = LineDataSet(getData(amt), "tap counter")
+        val lineDataSet = LineDataSet(getData(amt), "inflation")
         lineDataSet.apply {
             setCircleColor(lineColor)
             color = lineColor
         }
 
-        val dates = getDates()
+        val dates = MetaBuilder().getDates(this@MainActivity)
 
-        val formatter = object : ValueFormatter() {
-            override fun getAxisLabel(value: Float, axis: AxisBase?): String {
-                try {
-                    return dates[value.toInt()]
-                }catch (e : Exception){
-                    e.printStackTrace()
-                }
-                return ""
-            }
-        }
-
+        val data = LineData(lineDataSet)
         lineChartView.xAxis.apply {
             position = XAxis.XAxisPosition.BOTTOM
             labelRotationAngle = 90f
             setDrawAxisLine(true)
             labelCount = dates.size
+            setAvoidFirstLastClipping(true)
+            axisMaximum = data.xMax + .5f
+            axisMinimum = data.xMin - .5f
             granularity = 1f
-            valueFormatter = formatter
+            valueFormatter = DatesFormatter(dates)
         }
 
-        val data = LineData(lineDataSet)
         data.setValueFormatter(CustomValueFormatter())
         lineChartView.data = data
 
@@ -192,7 +167,7 @@ class MainActivity : AppCompatActivity() {
             axisLeft.isEnabled = false
             description.isEnabled = false
             setVisibleXRangeMaximum(10f)
-            legend.isEnabled = false
+            legend.isEnabled = true
             moveViewToX(dates.size.toFloat())
             invalidate()
         }

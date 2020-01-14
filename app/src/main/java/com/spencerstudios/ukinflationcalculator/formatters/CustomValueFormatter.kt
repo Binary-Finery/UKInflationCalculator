@@ -1,4 +1,4 @@
-package com.spencerstudios.ukinflationcalculator
+package com.spencerstudios.ukinflationcalculator.formatters
 
 import com.github.mikephil.charting.formatter.ValueFormatter
 import java.util.*

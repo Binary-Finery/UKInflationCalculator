@@ -1,5 +1,6 @@
 package com.spencerstudios.ukinflationcalculator.utilities
 
+import android.content.Context
 import com.spencerstudios.ukinflationcalculator.models.Meta
 import java.util.*
 
@@ -10,10 +11,39 @@ class MetaBuilder {
         val adjustedCashValue = ((meta[yearPosTwo].value / meta[yearPosOne].value) * userDefinedCashValue)
         val diff = if(userDefinedCashValue > adjustedCashValue) userDefinedCashValue - adjustedCashValue
         else adjustedCashValue - userDefinedCashValue
+        val s = ""
         return arrayOf(
             String.format(Locale.getDefault(), "£%,.2f", adjustedCashValue),
             String.format(Locale.getDefault(), "£%,.2f in %d is equivalent to £%,.2f in %d, a difference of £%,.2f", userDefinedCashValue, meta[yearPosOne].year, adjustedCashValue, meta[yearPosTwo].year, diff)
         )
+    }
+
+    fun getYearArray(): Array<String?> {
+        val meta = buildYearMeta()
+        val array = arrayOfNulls<String>(meta.size)
+        (0 until meta.size).forEach { i ->
+            array[i] = "${meta[i].year}"
+        }
+        return array
+    }
+
+    fun getDates(ctx : Context): ArrayList<String> {
+        val dates = ArrayList<String>()
+        var y1 = PrefUtils(ctx).getYear1()
+        var y2 = PrefUtils(ctx).getYear2()
+
+        when {
+            y1 > y2 -> {
+                val temp = y1
+                y1 = y2
+                y2 = temp
+            }
+        }
+        (y1..y2).mapTo(dates) {
+            MetaBuilder().buildYearMeta()[it].year.toString()
+        }
+
+        return dates
     }
 
     fun buildYearMeta() : ArrayList<Meta> {
