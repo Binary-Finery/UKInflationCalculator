@@ -8,11 +8,11 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
 import com.spencerstudios.ukinflationcalculator.R
 import com.spencerstudios.ukinflationcalculator.dialogs.displayAboutDialog
 import com.spencerstudios.ukinflationcalculator.formatters.CustomValueFormatter
@@ -26,7 +26,7 @@ import kotlin.math.min
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var lineChartView : LineChart
+    private lateinit var barChart : BarChart
     private lateinit var yearArray: Array<String?>
     private lateinit var prefs: PrefUtils
 
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        lineChartView = findViewById(R.id.chart)
+        barChart = findViewById(R.id.chart)
 
         prefs = PrefUtils(this)
         yearArray = MetaBuilder().getYearArray()
@@ -111,8 +111,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getData(amt : Double): ArrayList<Entry> {
-        val data = ArrayList<Entry>()
+    private fun getData(amt : Double): ArrayList<BarEntry> {
+        val data = ArrayList<BarEntry>()
         val yo = prefs.getYear1()
         val yt = prefs.getYear2()
         val ymin = min(yo, yt)
@@ -121,12 +121,12 @@ class MainActivity : AppCompatActivity() {
         val meta = MetaBuilder().buildYearMeta()
 
         for((idx, i) in (ymin..ymax).withIndex())
-            data.add(Entry(idx.toFloat(), ((meta[i].value / meta[yo].value) * amt).toFloat()))
+            data.add(BarEntry(idx.toFloat(), ((meta[i].value / meta[yo].value) * amt).toFloat()))
         return data
     }
 
     private fun resetChart(){
-        lineChartView.apply {
+        barChart.apply {
             fitScreen()
             data?.clearValues()
             xAxis.valueFormatter = null
@@ -137,32 +137,28 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initChart(amt : Double) {
-        val lineColor = ContextCompat.getColor(this, R.color.colorPrimary)
-        val lineDataSet = LineDataSet(getData(amt), "inflation")
-        lineDataSet.apply {
-            setCircleColor(lineColor)
-            color = lineColor
-        }
+        val barDataSet = BarDataSet(getData(amt), "inflation")
 
+        barDataSet.valueFormatter = CustomValueFormatter()
+        barDataSet.color = ContextCompat.getColor(this@MainActivity, R.color.colorPrimary)
         val dates = MetaBuilder().getDates(this@MainActivity)
 
-        val data = LineData(lineDataSet)
-        lineChartView.xAxis.apply {
+        val barData = BarData(barDataSet)
+        barChart.xAxis.apply {
             position = XAxis.XAxisPosition.BOTTOM
             labelRotationAngle = 90f
-            setDrawAxisLine(true)
             labelCount = dates.size
-            setAvoidFirstLastClipping(true)
-            axisMaximum = data.xMax + .5f
-            axisMinimum = data.xMin - .5f
             granularity = 1f
             valueFormatter = DatesFormatter(dates)
+            setDrawAxisLine(false)
+            setDrawGridLines(false)
         }
 
-        data.setValueFormatter(CustomValueFormatter())
-        lineChartView.data = data
+        barChart.data = barData
 
-        lineChartView.apply {
+        barChart.axisLeft.setDrawGridLines(false)
+
+        barChart.apply {
             axisRight.isEnabled = false
             axisLeft.isEnabled = false
             description.isEnabled = false
