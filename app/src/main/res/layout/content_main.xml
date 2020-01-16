@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="16dp"
-        android:background="#ffffff"
+        android:background="#FFFFFF"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:showIn="@layout/activity_main"
         tools:context=".activities.MainActivity">
@@ -100,22 +100,13 @@
                     android:layout_gravity="center_horizontal"
                     android:textColor="@color/textColor"
                     android:gravity="center_horizontal"
-                    android:layout_marginBottom="16dp"
                     android:textSize="24sp"
                     tools:ignore="Autofill,HardcodedText" android:fontFamily="@font/raleway"/>
 
-            <Button
-                    android:id="@+id/btnCalc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@drawable/btn_bg"
-                    android:fontFamily="@font/raleway"
-                    android:textColor="#ffffff"
-                    android:paddingEnd="16dp"
-                    android:paddingStart="16dp"
-                    android:text="calculate"
-                    tools:ignore="HardcodedText"/>
+            <View android:layout_width="match_parent"
+                  android:layout_height="1dp"
+                  android:layout_marginTop="16dp"
+                  android:background="#E0E0E0"/>
 
             <TextView
                     android:id="@+id/tvOutput"
@@ -125,7 +116,8 @@
                     android:gravity="center_horizontal"
                     android:textColor="@color/textColor"
                     android:layout_marginTop="16dp"
-                    android:textSize="22sp"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
                     tools:ignore="HardcodedText" android:fontFamily="@font/raleway"/>
 
             <TextView
@@ -134,24 +126,18 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:gravity="center_horizontal"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:textColor="@color/textColor"
                     android:layout_marginTop="16dp"
                     android:fontFamily="@font/raleway"/>
 
-
-                <com.github.mikephil.charting.charts.BarChart
-                        android:layout_width="match_parent"
-                        android:layout_height="300dp"
-                        android:id="@+id/chart"/>
-
-
-
-            <View android:layout_width="match_parent"
-                  android:layout_height="30dp"/>
+            <com.github.mikephil.charting.charts.BarChart
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginBottom="16dp"
+                    android:visibility="gone"
+                    android:id="@+id/chart"/>
 
         </LinearLayout>
-
-
     </ScrollView>
 </LinearLayout>

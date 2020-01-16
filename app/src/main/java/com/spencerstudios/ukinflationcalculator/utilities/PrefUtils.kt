@@ -3,9 +3,9 @@ package com.spencerstudios.ukinflationcalculator.utilities
 import android.content.Context
 import android.preference.PreferenceManager
 
-class PrefUtils(context: Context) {
+class PrefUtils(ctx: Context) {
 
-    private val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+    private val prefs = PreferenceManager.getDefaultSharedPreferences(ctx)
 
     fun setYear1(y1: Int) {
         prefs.edit().putInt("y1", y1).apply()
